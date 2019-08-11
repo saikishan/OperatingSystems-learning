@@ -42,8 +42,8 @@ int main(int argc, void** arguments){
         and join them with this parent thread
     */
     //its important to not to send i is as the value of i can be changed by the time it access.
-    for(i=0; i<=NUM_READERS; i++ )  readerNum[i] = i , readerThreadIDS[i] = pthread_create(&readerThreadIDS[i], NULL, readerMain, &readerNum[i]), pthread_join(readerThreadIDS[i], NULL);
-    for(i=0; i<=NUM_READERS; i++ )  writerNum[i] = i , readerThreadIDS[i] = pthread_create(&writerThreadIDS[i], NULL, writerMain, &writerNum[i]), pthread_join(writerThreadIDS[i], NULL);
+    for(i=0; i < NUM_READERS; i++ )  readerNum[i] = i , readerThreadIDS[i] = pthread_create(&readerThreadIDS[i], NULL, readerMain, &readerNum[i]), pthread_join(readerThreadIDS[i], NULL);
+    for(i=0; i < NUM_WRITERS; i++ )  writerNum[i] = i , readerThreadIDS[i] = pthread_create(&writerThreadIDS[i], NULL, writerMain, &writerNum[i]), pthread_join(writerThreadIDS[i], NULL);
     /*  
         p_thread_create will initilise the thread with method call
         p_thread_join is important is as the main(parent) will/can die early than children
@@ -60,6 +60,7 @@ void *readerMain(void *threadArguments){
     for(i= 0; i < NUM_READ ; i++) {
         pthread_mutex_lock(&gSharedLock);
         readersWaiting++;
+        printf("one\n");
         while(activeReaders < 0)    pthread_cond_wait(&readerCondition, &gSharedLock);
         numReaders = ++activeReaders;
         readersWaiting--;
