@@ -25,7 +25,7 @@ pthread_cond_t readerCondition = PTHREAD_COND_INITIALIZER; //condition on which 
 pthread_cond_t writerCondition = PTHREAD_COND_INITIALIZER;  //condition on which writer threads wait
 int activeReaders = 0, readersWaiting = 0;
 
-int main(int argc, void** arguments){
+int main(){
     int i;
     int readerNum[NUM_READERS];
     int writerNum[NUM_WRITERS];
